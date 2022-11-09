@@ -1,7 +1,10 @@
 # Introduction
 
 This repository focuses on creating shared libraries of the MapReduce project. The libraries would then
-be used within another project via explicit linking.
+be used within another project via explicit linking.  For each class in this project 
+create a base class interface (base class) that gets inherited by its corresponding 
+subclass. IOn each case, after creating the .so file, it will be used in conjunction with 
+the library file using dlopen API.
 
 ## FileProcessor
 
@@ -111,6 +114,121 @@ You will see a file `FileProcessorRedOutput.so` created. We will move it to the 
 Let's remove the object file
 
       rm -f FileProcessorRedOutput.o
+
+## Mapper
+
+This folder will hold the following -
+
+1) MapperBase.hpp
+
+   Abstract implementation of the Mapper class, describing interface details 
+   within MapperBase.hpp file. We have declared the base class implementation of 
+   MapperBase class. We have also declared class factory functions to generate objects. 
+   This will be used by calling programs later.
+
+2) MapperImpl.cpp
+   The implementation details for the subclass (Mapper) is provided with MapperImpl.cpp file.
+This will used by calling programs later.
+
+### Building
+
+The commands to build each implementation as a library are as follows -
+
+### MapperImpl.cpp
+
+Let's start by cd'ing to Mapper directory and creating the object file by running the g++ command
+
+      cd Mapper/
+      g++ -std=c++17 -c -o MapperImpl.o MapperImpl.cpp -fPIC
+
+Now we will create a shared library using gcc
+
+      gcc -shared -o MapperImpl.so MapperImpl.o
+
+You will see a file `MapperImpl.so` created. We will move it to the libs folder.
+
+      mv MapperImpl.so libs/
+
+Let's remove the object file
+
+      rm -f MapperImpl.o
+
+## Reducer
+
+This folder will hold the following -
+
+1) ReducerBase.hpp
+
+   Abstract implementation of the Reducer class, describing interface details
+   within ReducerBase.hpp file. We have declared the base class implementation of
+   ReducerBase class. We have also declared class factory functions to generate objects.
+   This will be used by calling programs later.
+
+2) ReducerImpl.cpp
+   The implementation details for the subclass (Reducer) are provided with ReducerImpl.cpp file.
+   This will used by calling programs later.
+
+### Building
+
+The commands to build each implementation as a library are as follows -
+
+### ReducerImpl.cpp
+
+Let's start by cd'ing to Reducer directory and creating the object file by running the g++ command
+
+      cd Reducer/
+      g++ -std=c++17 -c -o ReducerImpl.o ReducerImpl.cpp -fPIC
+
+Now we will create a shared library using gcc
+
+      gcc -shared -o ReducerImpl.so ReducerImpl.o
+
+You will see a file `ReducerImpl.so` created. We will move it to the libs folder.
+
+      mv ReducerImpl.so libs/
+
+Let's remove the object file
+
+      rm -f ReducerImpl.o
+***
+
+## Shuffler
+
+This folder will hold the following -
+
+1) ShufflerBase.hpp
+
+   Abstract implementation of the Shuffler class, describing interface details
+   within ShufflerBase.hpp file. We have declared the base class implementation of
+   ShufflerBase class. We have also declared class factory functions to generate objects.
+   This will be used by calling programs later.
+
+2) ShufflerImpl.cpp
+   The implementation details for the subclass (Shuffler) is provided with ShufflerImpl.cpp file.
+   This will be used by calling programs later.
+
+### Building
+
+The commands to build each implementation as a library are as follows -
+
+### MapperImpl.cpp
+
+Let's start by cd'ing to Shuffler directory and creating the object file by running the g++ command
+
+      cd Shuffler/
+      g++ -std=c++17 -c -o ShufflerImpl.o ShufflerImpl.cpp -fPIC
+
+Now we will create a shared library using gcc
+
+      gcc -shared -o ShufflerImpl.so ShufflerImpl.o
+
+You will see a file `ShufflerImpl.so` created. We will move it to the libs folder.
+
+      mv ShufflerImpl.so libs/
+
+Let's remove the object file
+
+      rm -f ShufflerImpl.o
 
 ### Class Factories
 
